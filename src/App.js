@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useState } from "react";
+import "./App.css";
+import SearchParams from "./components/SearchParams";
+import Details from "./components/Details";
+import { Router, Link } from "@reach/router";
+import ThemeContext from "./components/ThemeContext";
+import ErrorBoundary from "./components/ErrorBoundary";
+const App = () => {
+  const themeHook = useState("darkBlue");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeContext.Provider value={themeHook}>
+      <div id="">
+        <header>
+          <Link to="/"></Link>
+        </header>
+        
+          <Router>
+            <SearchParams path="/" />
+            <Details path="/details/:id" />
+          </Router>
+        
+      </div>
+    </ThemeContext.Provider>
+  );
+};
+
+// ReactDOM.render(React.createElement(App), document.getElementById("root"));
+
+function AppWithErrorBoundary(props) {
+  return (
+    <ErrorBoundary>
+      <App {...props} />
+    </ErrorBoundary>
   );
 }
-
-export default App;
+export default AppWithErrorBoundary;
+// export default App;
